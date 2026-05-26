@@ -27,10 +27,18 @@ public class PatientAuthenticationController {
     }
 
     @PostMapping("/register")
-    public String register(@ModelAttribute PatientDTO patientDTO) {
-        authServicePatient.register(patientDTO);
-        // Redirect giữ nguyên vì nó trỏ đến URL, không phải file
-        return "redirect:/patient/login";
+    public String register(@ModelAttribute("patient") PatientDTO patientDTO, Model model) {
+        try {
+            authServicePatient.register(patientDTO);
+            return "redirect:/patient/login";
+        } catch (org.springframework.dao.DataIntegrityViolationException e) {
+            model.addAttribute("errorMessage", "Email này đã được đăng ký!");
+            return "patient/patient-register";
+        } catch (Exception e) {
+            e.printStackTrace();
+            model.addAttribute("errorMessage", "Không thể đăng ký: " + e.getMessage());
+            return "patient/patient-register";
+        }
     }
 
     @GetMapping("/success")
