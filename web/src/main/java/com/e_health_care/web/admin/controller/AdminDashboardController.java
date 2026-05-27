@@ -5,8 +5,10 @@ import com.e_health_care.web.admin.repository.AdminRepository;
 import com.e_health_care.web.admin.service.AdminManagementService; // NEW
 import com.e_health_care.web.doctor.model.Doctor;
 import com.e_health_care.web.doctor.repository.DoctorRepository;
+import com.e_health_care.web.appointment.dto.AppointmentStatsDTO;
 import com.e_health_care.web.patient.model.Patient;
 import com.e_health_care.web.patient.repository.PatientRepository;
+import com.e_health_care.web.patient.service.PatientAppointmentService;
 
 import jakarta.servlet.http.HttpServletRequest;
 
@@ -38,7 +40,10 @@ public class AdminDashboardController {
     
     // NEW SERVICE INJECTION
     @Autowired
-    private AdminManagementService adminManagementService; 
+    private AdminManagementService adminManagementService;
+
+    @Autowired
+    private PatientAppointmentService patientAppointmentService; 
 
     private Admin getCurrentAdmin(Principal principal) {
         if (principal == null) return null;
@@ -54,6 +59,8 @@ public class AdminDashboardController {
         List<Patient> patients = patientRepository.findAll();
         model.addAttribute("doctors", doctors);
         model.addAttribute("patients", patients);
+        AppointmentStatsDTO appointmentStats = patientAppointmentService.getStats();
+        model.addAttribute("appointmentStats", appointmentStats);
         model.addAttribute("adminToken", request.getAttribute("adminToken"));
         model.addAttribute("admin", admin);
         return "admin/admin-dashboard";
