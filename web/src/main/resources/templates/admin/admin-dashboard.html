@@ -37,6 +37,16 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
+
+            <h2 class="h4 mt-2">Cuộc hẹn (Appointments)</h2>
+            <div class="row mb-4" th:if="${appointmentStats}">
+                <div class="col-md-2"><div class="card text-center p-2"><strong>Tổng</strong><div th:text="${appointmentStats.total}">0</div></div></div>
+                <div class="col-md-2"><div class="card text-center p-2 border-warning"><strong>Chờ duyệt</strong><div th:text="${appointmentStats.pending}">0</div></div></div>
+                <div class="col-md-2"><div class="card text-center p-2 border-success"><strong>Đã duyệt</strong><div th:text="${appointmentStats.confirmed}">0</div></div></div>
+                <div class="col-md-2"><div class="card text-center p-2 border-primary"><strong>Hoàn thành</strong><div th:text="${appointmentStats.completed}">0</div></div></div>
+                <div class="col-md-2"><div class="card text-center p-2 border-secondary"><strong>Đã hủy</strong><div th:text="${appointmentStats.cancelled}">0</div></div></div>
+            </div>
+
             <h2>Doctors</h2>
             <div class="table-responsive">
                 <table class="table table-striped table-sm">
